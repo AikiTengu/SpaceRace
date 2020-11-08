@@ -5,6 +5,11 @@ import java.util.Scanner;
 
 public class Simulation {
 
+    static int budget = 0;
+    private ArrayList<U1Rocket> rocketList1P1 = new ArrayList<U1Rocket>();
+    private ArrayList<U1Rocket> rocketList1P2 = new ArrayList<U1Rocket>();
+    private ArrayList<U2Rocket> rocketList2P1 = new ArrayList<U2Rocket>();
+    private ArrayList<U2Rocket> rocketList2P2 = new ArrayList<U2Rocket>();
 
     public ArrayList<Item> loadItems(String fileName)throws FileNotFoundException {
         File file = new File(fileName);
@@ -29,24 +34,23 @@ public class Simulation {
 
     public ArrayList<U1Rocket> loadU1(ArrayList<Item> items) {
         ArrayList<U1Rocket> u1List = new ArrayList<U1Rocket>();
-        boolean rocketfull = true;
-        U1Rocket rocket;
+        boolean everythingLoaded = false;
 
-        for (Item item : items) {
-           //Checking if it is necessary to build new rocket
-           if (rocketfull) {
-               rocket = new U1Rocket();
-               rocketfull = false;
-           }
-           //Loading cargo onto rocket
-           if (item.isLoaded()==false) {
-                if (rocket.canCarry(item)) {
-                    item.setLoaded(true);
-                    rocket.Carry(item);
-                }
-                else {
-                    rocketfull = true;
-                    u1List.add(rocket);
+
+        while (!everythingLoaded) {
+            U1Rocket rocket = new U1Rocket();
+            u1List.add(rocket);
+            for (Item item : items) {
+                //Loading cargo onto rocket
+                if (item.isLoaded() == false) {
+                    if (rocket.canCarry(item)) {
+                        item.setLoaded(true);
+                        rocket.Carry(item);
+                        everythingLoaded = true;
+                    } else {
+                        everythingLoaded = false;
+                    }
+
                 }
             }
         }
@@ -55,11 +59,32 @@ public class Simulation {
 
     public ArrayList<U2Rocket> loadU2(ArrayList<Item> items) {
         ArrayList<U2Rocket> u2List = new ArrayList<U2Rocket>();
+        boolean everythingLoaded = false;
 
+
+        while (!everythingLoaded) {
+            U2Rocket rocket = new U2Rocket();
+            u2List.add(rocket);
+            for (Item item : items) {
+                //Loading cargo onto rocket
+                if (item.isLoaded() == false) {
+                    if (rocket.canCarry(item)) {
+                        item.setLoaded(true);
+                        rocket.Carry(item);
+                        everythingLoaded = true;
+                    } else {
+                        everythingLoaded = false;
+                    }
+
+                }
+            }
+        }
         return u2List;
     }
 
-    public int RunSimulation() {
+    public void RunSimulation(int rocketKind) {
+        int totalRocketnumber1 = 0;
+        int totalRocketnumber2 = 0;
 
         //Loading items for phase 1 from file
         ArrayList<Item> itemList = new ArrayList<Item>();
@@ -70,13 +95,53 @@ public class Simulation {
         System.out.println("phase 1 file not found!");
         }
 
-        loadU1(itemList);
-        //Test output of loaded items list
-        for (Item item : itemList) {
-            System.out.println(item.getName()+" "+item.getWeight()+" "+item.isLoaded());
+        switch (rocketKind) {
+            case 1: {
+                rocketList1P1 = loadU1(itemList);
+                totalRocketnumber1 = rocketList1P1.size();
+                break;
+            }
+            case 2:
+            {
+                rocketList2P1 = loadU2(itemList);
+                totalRocketnumber1 = rocketList2P1.size();
+                break;
+            }
+        }
+        //Printing out the number of rockets for phase 1
+        System.out.println("Predicted total number of rockets for phase 1: " + totalRocketnumber1);
+
+        //Running crash on launch/crash on land simulation for phase 1
+
+
+        //Loading items for phase 2 from file
+        ArrayList<Item> itemList2 = new ArrayList<Item>();
+        try {
+            itemList2 = loadItems("phase-2.txt");
+        }
+        catch (FileNotFoundException e) {
+            System.out.println("phase 2 file not found!");
         }
 
-        return 0;
+            switch (rocketKind) {
+                case 1: {
+                    rocketList1P2 = loadU1(itemList2);
+                    totalRocketnumber2 = rocketList1P2.size();
+                    break;
+                }
+                case 2:
+                    {
+                        rocketList2P2 = loadU2(itemList2);
+                        totalRocketnumber2 = rocketList2P2.size();
+                        break;
+                    }
+                }
+
+        System.out.println("Predicted total number of rockets for phase 2: " + totalRocketnumber2);
+
+        //Running crash on launch/crash on land simulation for phase 2
+
+
     }
 
 }

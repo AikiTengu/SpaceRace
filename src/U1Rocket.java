@@ -1,5 +1,5 @@
 public class U1Rocket extends Rocket{
-    private static int cost = 100;
+    public static int cost = 100;
 
     public U1Rocket() {
         carryCapacity = 8000;

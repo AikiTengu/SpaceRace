@@ -3,8 +3,10 @@ public class SpaceRace {
 
         int total = 0;
         Simulation sim1 = new Simulation();
-        total = sim1.RunSimulation();
-        System.out.println("Total Mars expidition budget is: " + total);
+        System.out.println("Simulating a non-crashable launch of U1 Rockets: ");
+        sim1.RunSimulation(1);
+        System.out.println("Simulating a non-crashable launch of U2 Rockets: ");
+        sim1.RunSimulation(2);
 
     }
 }
