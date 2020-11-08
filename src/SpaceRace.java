@@ -3,9 +3,9 @@ public class SpaceRace {
 
         int total = 0;
         Simulation sim1 = new Simulation();
-        System.out.println("Simulating a non-crashable launch of U1 Rockets: ");
+        System.out.println("Simulating Mars Colonization with U1 Rockets: ");
         sim1.RunSimulation(1);
-        System.out.println("Simulating a non-crashable launch of U2 Rockets: ");
+        System.out.println("Simulating Mars Colonization with  of U2 Rockets: ");
         sim1.RunSimulation(2);
 
     }

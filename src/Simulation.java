@@ -111,7 +111,6 @@ public class Simulation {
         //Printing out the number of rockets for phase 1
         System.out.println("Predicted total number of rockets for phase 1: " + totalRocketnumber1);
 
-        //Running crash on launch/crash on land simulation for phase 1
 
 
         //Loading items for phase 2 from file
@@ -139,8 +138,46 @@ public class Simulation {
 
         System.out.println("Predicted total number of rockets for phase 2: " + totalRocketnumber2);
 
-        //Running crash on launch/crash on land simulation for phase 2
+        //Running crash on launch/crash on simulation
+        int budget = 0;
+        int launchcounts = 0;
+        switch (rocketKind) {
+            case 1: {
+                for (U1Rocket rocket : rocketList1P1) {
+                    do {
+                        launchcounts++;
+                    } while (rocket.Launch()||rocket.Land());
+                }
 
+                for (U1Rocket rocket : rocketList1P2) {
+                    do {
+                        launchcounts++;
+                    } while (rocket.Launch()||rocket.Land());
+                }
+                    budget = launchcounts * U1Rocket.cost;
+                    System.out.println("Actual total number of U1 rockets for both phases: " + launchcounts);
+
+                break;
+            }
+            case 2:
+            {
+                for (U2Rocket rocket : rocketList2P1) {
+                    do {
+                        launchcounts++;
+                    } while (rocket.Launch()||rocket.Land());
+                }
+                for (U2Rocket rocket : rocketList2P2) {
+                    do {
+                        launchcounts++;
+                    } while (rocket.Launch()||rocket.Land());
+                }
+                    budget = launchcounts * U2Rocket.cost;
+                    System.out.println("Actual total number of U2 rockets for both phases: " + launchcounts);
+                    break;
+            }
+        }
+
+        System.out.println("Total Mars colony budget: " + budget +" mln $");
 
     }
 

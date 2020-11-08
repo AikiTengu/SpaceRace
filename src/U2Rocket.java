@@ -1,3 +1,5 @@
+import java.util.Random;
+
 public class U2Rocket extends Rocket{
     public static int cost = 120;
 
@@ -8,13 +10,15 @@ public class U2Rocket extends Rocket{
 
     @Override
     public  boolean Launch() {
-        double explosion = 4.0 * this.cargoCarried / carryCapacity;
-        return Math.random() * 100 < explosion;
+        int explosion = 4 * this.cargoCarried / carryCapacity;
+        Random r = new Random();
+        return (r.nextInt(100) < explosion);
     }
 
     @Override
     public boolean Land() {
-        double explosion = 8.0 * this.cargoCarried / carryCapacity;
-        return Math.random() * 100 < explosion;
+        int explosion = 8 * this.cargoCarried / carryCapacity;
+        Random r = new Random();
+        return (r.nextInt(100) < explosion);
     }
 }
